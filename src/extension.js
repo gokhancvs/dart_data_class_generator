@@ -1142,7 +1142,7 @@ class DataClassGenerator {
             method += `    ${clazz.hasNamedConstructor ? `${p.name}: ` : ''}`;
 
             const value = `json['${p.key}']`;
-            const addNullCheck = !p.isPrimitive && p.isNullable;
+            const addNullCheck = false;
 
             if (addNullCheck) {
                 method += `${value} != null ? `;
@@ -1161,8 +1161,8 @@ class DataClassGenerator {
                     method += `${value}?.map((x) => ${customTypeMapping(p, 'x')})${defaultValue})`;
                 }
             } else if (p.isPrimitive) {
-                const defaultValue = !p.isNullable ? ` ?? ${p.defValue}` : '';
-                method += `${value}${p.isDouble ? '?.toDouble()' : p.isInt ? '?.toInt()' : ''}${defaultValue}`;
+                const defaultValue = false ? ` ?? ${p.defValue}` : '';
+                method += `${value}${p.isDouble ? '.toDouble()' : p.isInt ? '.toInt()' : ''}${defaultValue}`;
             } else {
                 method += customTypeMapping(p);
             }
