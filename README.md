@@ -4,20 +4,29 @@
 [![Downloads](https://img.shields.io/visual-studio-marketplace/d/BendixMa.dart-data-class-generator?color=blue)](https://github.com/bxqm/dart_data_class_generator)
 
 
-Create dart data classes easily, fast and without writing boilerplate or running code generation.  
+Create dart data classes easily, fast and without writing boilerplate or running code generation.
+
+# IMPORTANT! Use this extension with these settings.
+
+
+* `"dart_data_class_generator.json.key_format": "camelCase",`
+* `"dart_data_class_generator.useEquatable": true,`
+* `"dart_data_class_generator.constructor.required": true,`
+* `"dart_data_class_generator.constructor.enabled": true,`
+* `"dart_data_class_generator.copyWith.enabled": true,`
+* `"dart_data_class_generator.hashCode.use_jenkins": false,`
+* `"dart_data_class_generator.json.seperate": "current_file"`
+
 
 ## Features
 
-The generator can generate the constructor, copyWith, toMap, fromMap, toJson, fromJson, toString, operator == and hashCode methods for a class based on [class properties](#create-data-classes-based-on-class-properties) or [raw JSON](#create-data-classes-based-on-json-beta).
+The generator can generate the constructor, copyWith, toJson, fromJson, toString, Equatable, operator == and hashCode methods for a class based on [class properties](#create-data-classes-based-on-class-properties) or [raw JSON](#create-data-classes-based-on-json-beta).
 
 Additionally the generator has a couple of useful quickfixes to speed up your development process. See the [Additional Features Section](#additional-features) for more.
 
 If this extension is helpful to you, consider giving it a star on [GitHub](https://github.com/bxqm/Dart-Data-Class-Generator) or leave a review on the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=BendixMa.dart-data-class-generator) :heart:
 
 ## Create Data Classes Based on Class Properties
-
-![](assets/gif_from_class.gif)
-
 ### **Usage**
 
 You can generate data classes either by the quick fix dialog or by running a command. In the quick fix dialog you have the option to not only generate whole data classes but also only specific methods. The command has the advantage of being able to generate multiple classes at the same time.
@@ -52,8 +61,6 @@ final Enum myEnum;
 
 Although using the generator is fast, it still doesn't spare you from all the boiler plate necessary, which can be visually distracting. To reduce the amount of boiler plate needed, the generator works with **Equatable**. Just extend the class with `Equatable` or mix with `EquatableMixin` and the generator will use `Equatable` for value equality. 
 
-<img width="512" src="assets/equatable_demo.gif"/>
-
 You can also use the setting `dart_data_class_generator.useEquatable`, if you always want to use `Equatable` for value equality.
 
 ## Create Data Classes Based on JSON (Beta)
@@ -80,9 +87,6 @@ The extension includes some additional quick fixes that might be useful to you:
 ### Import refactoring
 
 Sort imports alphabetically and bring them into the correct format easily.
-
-<img width="512" src="assets/import_demo.gif"/>
-
 
 ## Settings
 
