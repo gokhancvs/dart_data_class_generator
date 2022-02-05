@@ -1126,7 +1126,7 @@ class DataClassGenerator {
          */
         function customTypeMapping(prop, value = null) {
             prop = prop.isCollection ? prop.collectionType : prop;
-            value = value == null ? "map['" + prop.key + "']" : value;
+            value = value == null ? "json['" + prop.key + "']" : value;
 
             switch (prop.type) {
                 case 'DateTime':
@@ -1136,16 +1136,16 @@ class DataClassGenerator {
                 case 'IconData':
                     return `IconData(${value}, fontFamily: 'MaterialIcons')`
                 default:
-                    return `${prop.type + '.fromMap('}${value})`;
+                    return `${prop.type + '.fromJson('}${value})`;
             }
         }
 
-        let method = `factory ${clazz.name}.fromMap(Map<String, dynamic> map) {\n`;
+        let method = `factory ${clazz.name}.fromJson(Map<String, dynamic> json) {\n`;
         method += '  return ' + clazz.type + '(\n';
         for (let p of props) {
             method += `    ${clazz.hasNamedConstructor ? `${p.name}: ` : ''}`;
 
-            const value = `map['${p.key}']`;
+            const value = `json['${p.key}']`;
             const addNullCheck = !p.isPrimitive && p.isNullable;
 
             if (addNullCheck) {
@@ -1182,7 +1182,7 @@ class DataClassGenerator {
         }
         method += '}';
 
-        this.appendOrReplace('fromMap', method, `factory ${clazz.name}.fromMap(Map<String, dynamic> map)`, clazz);
+        this.appendOrReplace('fromJson', method, `factory ${clazz.name}.fromJson(Map<String, dynamic> json)`, clazz);
     }
 
     /**
