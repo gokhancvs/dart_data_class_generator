@@ -763,10 +763,8 @@ class DataClassGenerator {
                 if (!clazz.isAbstract) {
                     if (readSetting('copyWith.enabled') && this.isPartSelected('copyWith'))
                         this.insertCopyWith(clazz);
-                    if (readSetting('toMap.enabled') && this.isPartSelected('serialization'))
-                        this.insertToMap(clazz);
-                    if (readSetting('fromMap.enabled') && this.isPartSelected('serialization'))
-                        this.insertFromMap(clazz);
+                    if (readSetting('fromJson.enabled') && this.isPartSelected('serialization'))
+                        this.insertFromJson(clazz);
                     if (readSetting('toJson.enabled') && this.isPartSelected('serialization'))
                         this.insertToJson(clazz);
                 }
@@ -1063,7 +1061,7 @@ class DataClassGenerator {
     /**
      * @param {DartClass} clazz
      */
-    insertToMap(clazz) {
+    insertToJson(clazz) {
         let props = clazz.properties;
         /**
          * @param {ClassField} prop
@@ -1082,11 +1080,11 @@ class DataClassGenerator {
                 case 'IconData':
                     return `${name}${nullSafe}.codePoint${endFlag}`
                 default:
-                    return `${name}${!prop.isPrimitive ? `${nullSafe}.toMap()` : ''}${endFlag}`;
+                    return `${name}${!prop.isPrimitive ? `${nullSafe}.toJson()` : ''}${endFlag}`;
             }
         }
 
-        let method = `Map<String, dynamic> toMap() {\n`;
+        let method = `Map<String, dynamic> toJson() {\n`;
         method += '  return {\n';
         for (let p of props) {
             method += `    '${p.key}': `;
@@ -1109,14 +1107,14 @@ class DataClassGenerator {
         }
         method += '}';
 
-        this.appendOrReplace('toMap', method, 'Map<String, dynamic> toMap()', clazz);
+        this.appendOrReplace('toJson', method, 'Map<String, dynamic> toJson()', clazz);
     }
 
     /**
      * @param {DartClass} clazz
      */
-    insertFromMap(clazz) {
-        let withDefaultValues = readSetting('fromMap.default_values');
+    insertFromJson(clazz) {
+        let withDefaultValues = readSetting('fromJson.default_values');
         let props = clazz.properties;
 
         /**
@@ -1181,16 +1179,6 @@ class DataClassGenerator {
         method += '}';
 
         this.appendOrReplace('fromJson', method, `factory ${clazz.name}.fromJson(Map<String, dynamic> json)`, clazz);
-    }
-
-    /**
-     * @param {DartClass} clazz
-     */
-    insertToJson(clazz) {
-        this.requiresImport('dart:convert');
-
-        const method = 'String toJson() => json.encode(toMap());';
-        this.appendOrReplace('toJson', method, 'String toJson()', clazz);
     }
 
     /**
@@ -1981,7 +1969,7 @@ class DataClassCodeActions {
             if (!this.clazz.isAbstract) {
                 if (readSetting('copyWith.enabled'))
                     codeActions.push(this.createCopyWithFix());
-                if (readSettings(['toMap.enabled', 'fromMap.enabled', 'toJson.enabled', 'fromJson.enabled']))
+                if (readSettings(['toJson.enabled', 'fromJson.enabled']))
                     codeActions.push(this.createSerializationFix());
             }
 
