@@ -769,8 +769,6 @@ class DataClassGenerator {
                         this.insertFromMap(clazz);
                     if (readSetting('toJson.enabled') && this.isPartSelected('serialization'))
                         this.insertToJson(clazz);
-                    if (readSetting('fromJson.enabled') && this.isPartSelected('serialization'))
-                        this.insertFromJson(clazz);
                 }
 
                 if (readSetting('toString.enabled') && this.isPartSelected('toString'))
@@ -1193,16 +1191,6 @@ class DataClassGenerator {
 
         const method = 'String toJson() => json.encode(toMap());';
         this.appendOrReplace('toJson', method, 'String toJson()', clazz);
-    }
-
-    /**
-     * @param {DartClass} clazz
-     */
-    insertFromJson(clazz) {
-        this.requiresImport('dart:convert');
-
-        const method = `factory ${clazz.name}.fromJson(String source) => ${clazz.name}.fromMap(json.decode(source));`;
-        this.appendOrReplace('fromJson', method, `factory ${clazz.name}.fromJson(String source)`, clazz);
     }
 
     /**
