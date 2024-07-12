@@ -359,7 +359,7 @@ class DartClass {
             let l = this.startsAtLine + i;
 
             if (i == 0) {
-                const classType = this.isAbstract ? 'abstract class' : 'class';
+                const classType = this.isAbstract ? 'abstract class' : 'final class';
                 let classDeclaration = classType + ' ' + this.name + this.fullGenericType;
                 if (this.superclass != null) {
                     classDeclaration += ' extends ' + this.superclass;
